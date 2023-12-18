@@ -1,24 +1,21 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { bigShoe1 } from "../assets";
+import { useEffect, useState } from "react";
+import { shoes } from "../data";
+import ShoeCard from "./ShoeCard";
 
-interface Props {
-  children: React.ReactNode;
-  currentImage: string;
-  setCurrentImage: Dispatch<SetStateAction<string>>;
-}
+function HeroImage() {
+  const [index, setIndex] = useState(0);
+  const currentImage = shoes[index].bigShoe;
 
-function HeroImage({ currentImage, setCurrentImage, children }: Props) {
   useEffect(() => {
     const timer = setInterval(() => {
-      if (currentImage.endsWith("3.png")) {
-        return setCurrentImage(bigShoe1);
+      if (index === 2) {
+        return setIndex(0);
       }
-
-      const nextShoe = Number(currentImage.slice(-5, -4)) + 1;
-      setCurrentImage(currentImage.slice(0, -5) + nextShoe + ".png");
+      setIndex((index) => index + 1);
     }, 2000);
+
     return () => clearInterval(timer);
-  }, [currentImage, setCurrentImage]);
+  }, [index]);
 
   return (
     <div className="bg-primary bg-hero relative flex flex-1 items-center justify-center bg-cover bg-center max-xl:py-40 xl:min-h-screen">
@@ -29,7 +26,17 @@ function HeroImage({ currentImage, setCurrentImage, children }: Props) {
         height={500}
         className="relative z-10 object-contain"
       />
-      {children}
+      <div className="absolute -bottom-[5%] flex gap-4 max-sm:px-6 sm:left-[10%] sm:gap-6">
+        {shoes.map((shoe, i) => (
+          <div key={i}>
+            <ShoeCard
+              img={shoe}
+              active={currentImage === shoe.bigShoe}
+              onClick={() => setIndex(i)}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

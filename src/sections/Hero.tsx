@@ -1,15 +1,10 @@
 import { FaCartPlus } from "react-icons/fa6";
 
 import Button from "../components/Button";
-import { shoes, statistics } from "../data";
-import { bigShoe1 } from "../assets";
-import ShoeCard from "../components/ShoeCard";
-import { useState } from "react";
+import { statistics } from "../data";
 import HeroImage from "../components/HeroImage";
 
 function Hero() {
-  const [currentImage, setCurrentImage] = useState(bigShoe1);
-
   return (
     <section
       id="home"
@@ -46,19 +41,7 @@ function Hero() {
         </div>
       </div>
       {/* imgs */}
-      <HeroImage currentImage={currentImage} setCurrentImage={setCurrentImage}>
-        <div className="absolute -bottom-[5%] flex gap-4 max-sm:px-6 sm:left-[10%] sm:gap-6">
-          {shoes.map((shoe, i) => (
-            <div key={i}>
-              <ShoeCard
-                img={shoe}
-                active={currentImage === shoe.bigShoe}
-                onClick={() => setCurrentImage(shoe.bigShoe)}
-              />
-            </div>
-          ))}
-        </div>
-      </HeroImage>
+      <HeroImage />
     </section>
   );
 }
